@@ -1,0 +1,3159 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Gloss</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<script src="content.js"></script>
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<style>
+
+  :root {
+    /* ── Color System ── */
+    --bg: #FAFAF8;
+    --bg-elevated: #FFFFFF;
+    --bg-sunken: #F2F1EF;
+    --bg-hover: #F7F6F4;
+    --text-primary: #1A1918;
+    --text-secondary: #6B6966;
+    --text-tertiary: #9B9691;
+    --text-inverse: #FAFAF8;
+    --border: #E8E6E3;
+    --border-subtle: #F0EEEC;
+
+    /* Accent */
+    --accent: #FF5021;
+    --accent-hover: #E8481D;
+    --accent-subtle: #FF502112;
+    --accent-muted: #FF502108;
+
+    /* Semantic */
+    --teal: #2C5F6F;
+    --teal-subtle: #2C5F6F12;
+    --green: #22A06B;
+    --green-subtle: #22A06B14;
+    --amber: #E8920D;
+    --amber-subtle: #E8920D14;
+    --blue: #388BFD;
+    --blue-subtle: #388BFD14;
+    --purple: #8B5CF6;
+    --purple-subtle: #8B5CF614;
+    --rose: #E11D48;
+    --rose-subtle: #E11D4814;
+
+    /* Tag colors */
+    --tag-primary-bg: #FF502116;
+    --tag-primary-text: #D94318;
+    --tag-secondary-bg: #6B696614;
+    --tag-secondary-text: #FFFFFF;
+    --tag-secondary-fill: #8A8784;
+    --tag-highlight-bg: #FFE01B;
+    --tag-highlight-text: #1A1918;
+    --tag-muted-bg: #E8E6E3;
+    --tag-muted-text: #5A5754;
+
+    /* Spacing */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 12px;
+    --space-lg: 16px;
+    --space-xl: 24px;
+    --space-2xl: 32px;
+    --space-3xl: 48px;
+    --space-4xl: 64px;
+
+    /* Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius-full: 9999px;
+
+    /* Shadows */
+    --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.08);
+    --shadow-float: 0 12px 40px rgba(0,0,0,0.1);
+
+    /* Typography */
+    --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'SF Mono', Consolas, monospace;
+    --font-serif: 'Lora', Georgia, serif;
+
+    /* Transitions */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --duration-fast: 150ms;
+    --duration-normal: 250ms;
+    --duration-slow: 400ms;
+
+    /* Layout */
+    --max-width: 720px;
+    --notes-bar-height: 64px;
+  }
+
+  /* ── Dark Mode ── */
+  [data-theme="dark"] {
+    --bg: #141413;
+    --bg-elevated: #1E1E1C;
+    --bg-sunken: #0F0F0E;
+    --bg-hover: #252523;
+    --text-primary: #EDEDEC;
+    --text-secondary: #9B9691;
+    --text-tertiary: #6B6966;
+    --text-inverse: #1A1918;
+    --border: #2A2928;
+    --border-subtle: #222221;
+    --accent-subtle: #FF502120;
+    --accent-muted: #FF502110;
+    --teal-subtle: #2C5F6F20;
+    --green-subtle: #22A06B20;
+    --amber-subtle: #E8920D20;
+    --blue-subtle: #388BFD20;
+    --purple-subtle: #8B5CF620;
+    --rose-subtle: #E11D4820;
+    --tag-primary-bg: #FF502120;
+    --tag-secondary-bg: #6B696620;
+    --tag-secondary-fill: #6B6966;
+    --tag-highlight-bg: #FFE01B30;
+    --tag-highlight-text: #FFE01B;
+    --tag-muted-bg: #2A2928;
+    --tag-muted-text: #9B9691;
+    --shadow-xs: 0 1px 2px rgba(0,0,0,0.2);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.25);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.35);
+  }
+
+  /* ── Reset ── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background var(--duration-normal) var(--ease-out),
+                color var(--duration-normal) var(--ease-out);
+  }
+
+  /* ── App Shell ── */
+  .app {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: var(--space-4xl) var(--space-xl) 140px;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .header {
+    margin-bottom: var(--space-3xl);
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .gloss-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .gloss-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--accent);
+  }
+
+  .gloss-wordmark {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--text-primary);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all var(--duration-fast) var(--ease-out);
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--text-tertiary);
+    background: var(--bg-hover);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-md);
+  }
+
+  h1 {
+    font-family: var(--font-sans);
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+    margin-bottom: var(--space-md);
+  }
+
+  .subtitle {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    max-width: 560px;
+  }
+
+  /* ── Stats Row ── */
+  .stats-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+    padding: var(--space-lg) var(--space-xl);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+  }
+
+  .stat { text-align: center; }
+
+  .stat-value {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: block;
+    line-height: 1.2;
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 28px;
+    background: var(--border);
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 3px;
+    background: var(--bg-sunken);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-left: var(--space-sm);
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: var(--radius-full);
+    transition: width var(--duration-slow) var(--ease-out);
+  }
+
+  /* ── Streak ── */
+  .streak-section {
+    margin-top: var(--space-lg);
+    padding: var(--space-lg) var(--space-xl);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+  }
+
+  .streak-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-md);
+  }
+
+  .streak-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  .streak-count {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .streak-grid {
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+  }
+
+  .streak-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    background: var(--bg-sunken);
+    transition: background var(--duration-fast) var(--ease-out);
+  }
+
+  .streak-dot.active {
+    background: var(--accent);
+  }
+
+  .streak-dot.today {
+    outline: 1.5px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  /* ── Search ── */
+  .search-section {
+    margin-bottom: var(--space-xl);
+    position: relative;
+  }
+
+  .search-input {
+    width: 100%;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    padding: var(--space-md) var(--space-lg);
+    padding-left: 40px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    outline: none;
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+
+  .search-input::placeholder { color: var(--text-tertiary); }
+  .search-input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-subtle); }
+
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-tertiary);
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    font-size: 16px;
+    display: none;
+    padding: 4px;
+  }
+
+  .search-clear.visible { display: block; }
+
+  /* ── Filters ── */
+  .filters {
+    display: flex;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+
+  .filters::-webkit-scrollbar { display: none; }
+
+  .filter-btn {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+
+  .filter-btn:hover {
+    border-color: var(--text-tertiary);
+    color: var(--text-primary);
+  }
+
+  .filter-btn.active {
+    background: var(--text-primary);
+    color: var(--text-inverse);
+    border-color: var(--text-primary);
+  }
+
+  /* ── Controls Row ── */
+  .controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+  }
+
+  .results-count {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+  }
+
+  .controls-actions {
+    display: flex;
+    gap: var(--space-sm);
+  }
+
+  .control-btn {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+
+  .control-btn:hover { border-color: var(--text-tertiary); color: var(--text-primary); }
+
+  /* ── Paper Cards ── */
+  .paper-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .paper {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    transition: all var(--duration-normal) var(--ease-out);
+    animation: fadeUp 0.3s var(--ease-out) both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .paper:hover {
+    border-color: var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .paper.is-read {
+    opacity: 0.6;
+  }
+
+  .paper.is-read:hover {
+    opacity: 0.85;
+  }
+
+  .paper.collapsed .paper-body { display: none; }
+  .paper.collapsed .paper-top { margin-bottom: 0; cursor: pointer; }
+  .paper.collapsed:hover { border-color: var(--accent); }
+
+  .paper-top {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-lg);
+  }
+
+  .paper-number {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    min-width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .paper-content { flex: 1; min-width: 0; }
+
+  .paper-title {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .essential-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-subtle);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    margin-left: var(--space-sm);
+    vertical-align: middle;
+  }
+
+  .essential-badge::before { content: '★'; font-size: 8px; }
+
+  .paper-relevance {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+  }
+
+  .paper-relevance em {
+    font-style: normal;
+    color: var(--teal);
+    font-weight: 500;
+  }
+
+  .paper-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-sm);
+  }
+
+  .paper-tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+  }
+
+  .tag-interviews { background: var(--blue-subtle); color: var(--blue); }
+  .tag-qual { background: var(--purple-subtle); color: var(--purple); }
+  .tag-behavior { background: var(--green-subtle); color: var(--green); }
+  .tag-agents { background: var(--teal-subtle); color: var(--teal); }
+  .tag-bias { background: var(--rose-subtle); color: var(--rose); }
+  .tag-primary { background: var(--tag-primary-bg); color: var(--tag-primary-text); }
+  .tag-secondary { background: var(--tag-secondary-fill); color: var(--tag-secondary-text); }
+  .tag-highlight { background: var(--tag-highlight-bg); color: var(--tag-highlight-text); font-weight: 600; }
+  .tag-muted { background: var(--tag-muted-bg); color: var(--tag-muted-text); }
+
+  .paper-note {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--amber);
+    background: var(--amber-subtle);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    margin-top: var(--space-sm);
+    line-height: 1.5;
+  }
+
+  .paper-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all var(--duration-fast) var(--ease-out);
+    white-space: nowrap;
+  }
+
+  .action-btn:hover {
+    border-color: var(--text-tertiary);
+    color: var(--text-primary);
+  }
+
+  .btn-read.marked {
+    background: var(--green-subtle);
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  .btn-analysis.open {
+    background: var(--teal-subtle);
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+
+  /* ── Rating ── */
+  .rating-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .rating-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-right: var(--space-xs);
+  }
+
+  .rating-star {
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--border);
+    transition: all var(--duration-fast) var(--ease-out);
+    padding: 2px;
+    line-height: 1;
+  }
+
+  .rating-star:hover, .rating-star.filled {
+    color: var(--amber);
+  }
+
+  .rating-star.filled {
+    transform: scale(1.05);
+  }
+
+  /* ── Note count badge ── */
+  .note-count-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--teal);
+    border: 1px solid var(--teal);
+    background: var(--teal-subtle);
+    padding: 5px 10px;
+    border-radius: var(--radius-full);
+    cursor: default;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* ── Paper Notes Section ── */
+  .paper-notes-section {
+    margin-top: var(--space-lg);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .paper-notes-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-md);
+  }
+
+  .paper-notes-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  .paper-notes-count {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-tertiary);
+  }
+
+  .paper-note-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-sunken);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-xs);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .paper-note-type {
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .paper-note-text {
+    flex: 1;
+    color: var(--text-secondary);
+    min-width: 0;
+  }
+
+  .paper-note-time {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-tertiary);
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .paper-note-delete {
+    background: none;
+    border: none;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0 2px;
+    opacity: 0;
+    transition: opacity var(--duration-fast);
+    flex-shrink: 0;
+  }
+
+  .paper-note-item:hover .paper-note-delete { opacity: 1; }
+
+  /* ── Analysis Panels (preserved style, refined) ── */
+  .analysis-panel {
+    margin-top: var(--space-lg);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .analysis-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+  }
+
+  .analysis-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--teal);
+    background: var(--teal-subtle);
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+  }
+
+  .analysis-meta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-tertiary);
+  }
+
+  .tts-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-lg);
+    background: var(--bg-sunken);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .tts-btn {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+
+  .tts-btn:hover { border-color: var(--text-tertiary); color: var(--text-primary); }
+
+  .tts-status {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-tertiary);
+    margin-left: auto;
+  }
+
+  .tts-vitals {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    padding: var(--space-lg);
+    background: var(--bg-sunken);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-xl);
+  }
+
+  .tts-vitals strong { color: var(--text-primary); font-weight: 600; }
+
+  .tts-section { margin-bottom: var(--space-xl); }
+
+  .tts-section-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--teal);
+    margin-bottom: var(--space-md);
+  }
+
+  .tts-paragraph {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--text-secondary);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    margin-bottom: var(--space-sm);
+    transition: all var(--duration-fast) var(--ease-out);
+    border-left: 2px solid transparent;
+  }
+
+  .tts-paragraph:hover { background: var(--bg-hover); }
+  .tts-paragraph.speaking {
+    background: var(--teal-subtle);
+    border-left-color: var(--teal);
+  }
+
+  .highlight {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .stat-highlight {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border-subtle);
+    margin: var(--space-xl) 0;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--space-4xl) var(--space-xl);
+    color: var(--text-tertiary);
+    font-size: 14px;
+  }
+
+  /* ── Notes Bar ── */
+  .notes-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-elevated);
+    border-top: 1px solid var(--border);
+    padding: var(--space-md) var(--space-lg);
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .notes-bar-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .notes-bar-top {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .notes-bar-meta {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .notes-input-container {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-sm);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 4px 4px 4px 0;
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .notes-input-container:focus-within {
+    border-color: var(--teal);
+  }
+
+  .notes-input-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    padding-right: 2px;
+  }
+
+  .notes-context-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--teal);
+    background: var(--teal-subtle);
+    padding: 4px 8px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    align-self: center;
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+
+  .notes-context-badge:hover { background: var(--teal); color: white; }
+
+  /* ── Note Type Selector ── */
+  .note-type-selector {
+    display: flex;
+    gap: 2px;
+    align-self: center;
+    flex-shrink: 0;
+  }
+
+  .note-type-btn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--duration-fast) var(--ease-out);
+    opacity: 0.5;
+  }
+
+  .note-type-btn:hover { opacity: 0.8; background: var(--bg-hover); }
+  .note-type-btn.active {
+    opacity: 1;
+    border-color: var(--border);
+    background: var(--bg-sunken);
+  }
+
+  .notes-input {
+    flex: 1;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: var(--radius-lg);
+    background: transparent;
+    color: var(--text-primary);
+    outline: none;
+    resize: none;
+    min-height: 38px;
+    max-height: 100px;
+    line-height: 1.4;
+  }
+
+  .notes-input::placeholder { color: var(--text-tertiary); }
+
+  /* ── Voice Note Button ── */
+  .voice-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: var(--bg-elevated);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+    transition: all var(--duration-fast) var(--ease-out);
+    position: relative;
+    color: var(--text-secondary);
+  }
+
+  .voice-btn:hover { border-color: var(--text-tertiary); }
+
+  .voice-btn.recording {
+    border-color: var(--accent);
+    background: var(--accent-subtle);
+    animation: voicePulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes voicePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,80,33,0.3); }
+    50% { box-shadow: 0 0 0 8px rgba(255,80,33,0); }
+  }
+
+  .notes-send-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: var(--radius-full);
+    background: var(--text-primary);
+    color: var(--text-inverse);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+  }
+
+  .notes-send-btn:hover { opacity: 0.85; }
+  .notes-send-btn:active { transform: scale(0.94); }
+
+  .notes-download-btn {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: none;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    padding: 0;
+  }
+
+  .notes-download-btn:hover { border-color: var(--text-tertiary); color: var(--text-primary); }
+
+  .notes-count {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-tertiary);
+    white-space: nowrap;
+    align-self: center;
+    flex-shrink: 0;
+  }
+
+  .notes-toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 8px 18px;
+    background: var(--text-primary);
+    color: var(--text-inverse);
+    border-radius: var(--radius-full);
+    opacity: 0;
+    transition: all 0.3s var(--ease-out);
+    pointer-events: none;
+    z-index: 101;
+  }
+
+  .notes-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ── @ Mention Autocomplete ── */
+  .mention-dropdown {
+    position: fixed;
+    bottom: 76px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(400px, 90vw);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 200;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+  }
+
+  .mention-dropdown.visible { display: block; }
+
+  .mention-item {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    transition: background var(--duration-fast);
+  }
+
+  .mention-item:hover, .mention-item.active {
+    background: var(--bg-hover);
+  }
+
+  .mention-item-id {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--teal);
+    min-width: 30px;
+  }
+
+  .mention-item-title {
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 640px) {
+    .app { padding: var(--space-2xl) var(--space-lg) 140px; }
+    h1 { font-size: 22px; }
+    .subtitle { font-size: 13px; }
+    .stats-row { padding: var(--space-md) var(--space-lg); gap: var(--space-md); flex-wrap: wrap; }
+    .stat-value { font-size: 18px; }
+    .progress-track { width: 100%; margin-left: 0; }
+    .paper { padding: var(--space-lg); }
+    .paper-top { gap: var(--space-md); }
+    .paper-number { min-width: 24px; height: 24px; font-size: 9px; }
+    .paper-title { font-size: 14px; }
+    .paper-relevance { font-size: 12px; }
+    .paper-actions { gap: var(--space-xs); }
+    .action-btn { padding: 6px 10px; font-size: 9px; }
+    .filter-btn { padding: 6px 10px; font-size: 9px; }
+    .tts-paragraph { font-size: 14px; padding: var(--space-sm) var(--space-md); }
+    .tts-controls { flex-wrap: wrap; gap: var(--space-xs); padding: var(--space-sm) var(--space-md); }
+    .tts-btn { padding: 5px 10px; font-size: 9px; }
+    .notes-bar { padding: var(--space-sm) var(--space-md); }
+    .notes-bar-meta { display: none; }
+    .notes-input { font-size: 16px; }
+    .note-type-selector { gap: 1px; }
+    .note-type-btn { width: 26px; height: 26px; font-size: 12px; }
+    .notes-input-container { border-radius: var(--radius-md); }
+    .streak-section { padding: var(--space-md) var(--space-lg); }
+    .streak-dot { width: 8px; height: 8px; }
+    .controls-row { flex-wrap: wrap; gap: var(--space-sm); }
+    .rating-star { font-size: 20px; padding: 4px; }
+    .search-input { font-size: 16px; }
+  }
+
+  /* ── Settings Modal ── */
+  .settings-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+  }
+  .settings-overlay.open { display: flex; }
+  .settings-modal {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 440px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.15);
+    overflow: hidden;
+  }
+  .settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .settings-title {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-primary);
+  }
+  .settings-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+  .settings-close:hover { background: var(--bg-sunken); }
+  .settings-body { padding: 20px; }
+  .settings-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+  .settings-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+  .settings-input {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--bg-sunken);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    outline: none;
+    box-sizing: border-box;
+  }
+  .settings-input:focus { border-color: var(--accent); }
+  .settings-input code, .settings-hint code {
+    font-family: var(--font-mono);
+    background: var(--bg-sunken);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  .settings-hint {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+  .settings-hint a { color: var(--accent); text-decoration: none; }
+  .settings-hint a:hover { text-decoration: underline; }
+  .settings-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .settings-btn {
+    padding: 8px 16px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    background: var(--bg-sunken);
+    color: var(--text-primary);
+    transition: all 0.15s;
+  }
+  .settings-btn:hover { background: var(--bg-hover); }
+  .settings-btn-save {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .settings-btn-save:hover { background: var(--accent-hover); }
+  .settings-status {
+    font-size: 12px;
+    margin-top: 10px;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+  }
+  .gh-connected { opacity: 1 !important; color: var(--green) !important; }
+
+  /* ── Lucide Icon Helpers ── */
+  [data-lucide] {
+    width: 1em;
+    height: 1em;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    line-height: 1;
+  }
+  .expand-chevron {
+    color: var(--text-tertiary);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+
+
+  /* ── Queue / Inbox ── */
+  .view-tabs {
+    display: flex;
+    gap: 2px;
+    margin: 0 auto;
+    max-width: var(--max-width);
+    padding: 0 var(--space-lg);
+    margin-bottom: var(--space-lg);
+    background: var(--bg-sunken);
+    border-radius: var(--radius-full);
+    width: fit-content;
+  }
+  .view-tab {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 20px;
+    border: none;
+    background: transparent;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    border-radius: var(--radius-full);
+    transition: all var(--duration-fast) var(--ease-out);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .view-tab:hover { color: var(--text-secondary); }
+  .view-tab.active {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-xs);
+  }
+  .view-tab .tab-badge {
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--accent);
+    color: var(--text-inverse);
+    border-radius: var(--radius-full);
+    padding: 1px 7px;
+    min-width: 18px;
+    text-align: center;
+    line-height: 16px;
+  }
+  .view-tab .tab-badge:empty { display: none; }
+
+  .add-article-btn {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: 1.5px dashed var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: var(--radius-full);
+    transition: all var(--duration-fast) var(--ease-out);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 8px;
+  }
+  .add-article-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-subtle);
+  }
+
+  /* Inbox Panel */
+  .inbox-panel { display: none; }
+  .inbox-panel.active { display: block; }
+  .library-panel.hidden { display: none; }
+
+  .inbox-empty {
+    text-align: center;
+    padding: var(--space-4xl) var(--space-xl);
+    color: var(--text-tertiary);
+  }
+  .inbox-empty-icon {
+    font-size: 48px;
+    margin-bottom: var(--space-md);
+    opacity: 0.4;
+  }
+  .inbox-empty h3 {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-sm) 0;
+  }
+  .inbox-empty p {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+
+  .queue-item {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-md);
+    max-width: var(--max-width);
+    margin-left: auto;
+    margin-right: auto;
+    animation: cardIn 0.3s var(--ease-out) both;
+  }
+  .queue-item:hover { border-color: var(--border); }
+  .queue-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+  .queue-item-title {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    word-break: break-word;
+  }
+  .queue-item-url {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .queue-item-url a {
+    color: var(--text-tertiary);
+    text-decoration: none;
+  }
+  .queue-item-url a:hover { color: var(--accent); }
+  .queue-item-note {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: var(--space-sm);
+    line-height: 1.45;
+  }
+  .queue-item-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-tertiary);
+  }
+  .queue-item-actions {
+    display: flex;
+    gap: var(--space-sm);
+  }
+  .queue-remove-btn {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+  .queue-remove-btn:hover {
+    border-color: var(--rose);
+    color: var(--rose);
+    background: var(--rose-subtle);
+  }
+  .queue-done-btn {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    padding: 4px 10px;
+    border: 1px solid var(--green);
+    border-radius: var(--radius-sm);
+    background: var(--green-subtle);
+    color: var(--green);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+  .queue-done-btn:hover {
+    background: var(--green);
+    color: white;
+  }
+
+  /* Add Article Modal */
+  .add-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 9000;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.15s ease-out;
+  }
+  .add-modal-overlay.show { display: flex; align-items: center; justify-content: center; }
+  .add-modal {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl);
+    width: 90%;
+    max-width: 480px;
+    box-shadow: var(--shadow-float);
+    animation: slideUp 0.25s var(--ease-out);
+  }
+  @keyframes slideUp {
+    from { transform: translateY(16px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .add-modal-title {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+  .add-modal label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-tertiary);
+    display: block;
+    margin-bottom: var(--space-xs);
+  }
+  .add-modal input,
+  .add-modal textarea {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text-primary);
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color var(--duration-fast) var(--ease-out);
+    outline: none;
+  }
+  .add-modal input:focus,
+  .add-modal textarea:focus { border-color: var(--accent); }
+  .add-modal textarea {
+    resize: vertical;
+    min-height: 64px;
+    line-height: 1.45;
+  }
+  .add-modal-field { margin-bottom: var(--space-lg); }
+  .add-modal-actions {
+    display: flex;
+    gap: var(--space-sm);
+    justify-content: flex-end;
+    margin-top: var(--space-xl);
+  }
+  .add-modal-cancel {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+  .add-modal-cancel:hover { background: var(--bg-hover); }
+  .add-modal-submit {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 20px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--accent);
+    color: var(--text-inverse);
+    cursor: pointer;
+    transition: background var(--duration-fast) var(--ease-out);
+  }
+  .add-modal-submit:hover { background: var(--accent-hover); }
+  .add-modal-submit:disabled { opacity: 0.5; cursor: default; }
+
+  .add-modal-hint {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: var(--space-xl);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border-subtle);
+    line-height: 1.5;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header class="header">
+    <div class="header-top">
+      <div class="gloss-mark" id="glossMark">
+        <div class="gloss-dot"></div>
+        <span class="gloss-wordmark">Gloss</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="theme-toggle" id="ghSyncStatus" onclick="openSettings()" title="GitHub sync settings" style="font-size:16px;opacity:0.5;"><i data-lucide="github"></i></button>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode"><i data-lucide="sun"></i></button>
+      </div>
+    </div>
+    <div class="eyebrow" id="eyebrow">Reading List</div>
+    <h1>Flagged Papers</h1>
+    <p class="subtitle" id="subtitle">Your curated reading list with analysis, notes, and TTS.</p>
+
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-value" id="readCount">0</span>
+        <span class="stat-label">read</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-value" id="totalCount">25</span>
+        <span class="stat-label">total</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <div class="streak-section" id="streakSection">
+      <div class="streak-header">
+        <span class="streak-label">Reading Activity</span>
+        <span class="streak-count" id="streakCount"></span>
+      </div>
+      <div class="streak-grid" id="streakGrid"></div>
+    </div>
+  </header>
+
+  
+  <div class="view-tabs" id="viewTabs">
+    <button class="view-tab active" data-view="library" onclick="switchView('library')">
+      <i data-lucide="book-open" style="width:14px;height:14px;"></i> Library
+    </button>
+    <button class="view-tab" data-view="inbox" onclick="switchView('inbox')">
+      <i data-lucide="inbox" style="width:14px;height:14px;"></i> Inbox
+      <span class="tab-badge" id="inboxBadge"></span>
+    </button>
+    <button class="add-article-btn" onclick="openAddModal()">
+      <i data-lucide="plus" style="width:14px;height:14px;"></i> Add article
+    </button>
+  </div>
+
+  <div class="library-panel" id="libraryPanel">
+  <div class="search-section" id="librarySearch">
+    <span class="search-icon"><i data-lucide="search"></i></span>
+    <input type="text" class="search-input" id="searchInput" placeholder="Search..." autocomplete="off">
+    <button class="search-clear" id="searchClear" onclick="clearSearch()">×</button>
+  </div>
+
+  <div class="filters" id="filtersRow"><!-- Dynamic: built from CONFIG.tags + content tags --></div>
+
+  <div class="controls-row">
+    <span class="results-count" id="resultsCount"></span>
+    <div class="controls-actions">
+      <button class="control-btn" id="collapseToggle" onclick="toggleCollapseAll()"><i data-lucide="rows-" style="margin-right:4px;font-size:13px;"></i> Collapse all</button>
+    </div>
+  </div>
+
+  <div class="paper-list" id="paperList"></div>
+</div>
+</div>
+
+  <div class="inbox-panel" id="inboxPanel">
+    <div class="inbox-list" id="inboxList"></div>
+  </div>
+
+<!-- Settings Modal -->
+<div class="settings-overlay" id="settingsOverlay" onclick="if(event.target===this)closeSettings()">
+  <div class="settings-modal">
+    <div class="settings-header">
+      <span class="settings-title">GitHub Sync</span>
+      <button class="settings-close" onclick="closeSettings()">×</button>
+    </div>
+    <div class="settings-body">
+      <p class="settings-desc">Connect to GitHub so your notes are saved as markdown files in the repo. Claude can then read and write to these files through its GitHub connection.</p>
+      <label class="settings-label">Personal Access Token</label>
+      <input type="password" class="settings-input" id="ghTokenInput" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+      <p class="settings-hint">Create a <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">fine-grained token</a> with read/write Contents access scoped to your repo.</p>
+      <label class="settings-label" style="margin-top:12px;">Repository</label>
+      <input type="text" class="settings-input" id="ghRepoInput" value="" autocomplete="off">
+      <label class="settings-label" style="margin-top:12px;">Notes folder path</label>
+      <input type="text" class="settings-input" id="ghPathInput" value="notes" autocomplete="off">
+      <div class="settings-actions">
+        <button class="settings-btn settings-btn-test" onclick="testGitHubConnection()">Test connection</button>
+        <button class="settings-btn settings-btn-save" onclick="saveGitHubSettings()">Save</button>
+      </div>
+      <div class="settings-status" id="ghSettingsStatus"></div>
+      <div class="settings-sync-section" id="ghSyncSection" style="display:none;">
+        <hr style="border:none;border-top:1px solid var(--border);margin:16px 0;">
+        <p class="settings-label">Sync</p>
+        <div class="settings-actions">
+          <button class="settings-btn settings-btn-test" onclick="syncNotesToGitHub()">Push all notes to GitHub</button>
+          <button class="settings-btn settings-btn-test" onclick="pullNotesFromGitHub()">Pull notes from GitHub</button>
+        </div>
+        <div class="settings-status" id="ghSyncStatus2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add Article Modal -->
+<div class="add-modal-overlay" id="addModalOverlay" onclick="if(event.target===this)closeAddModal()">
+  <div class="add-modal">
+    <div class="add-modal-title"><i data-lucide="plus-circle" style="width:18px;height:18px;color:var(--accent);"></i> Add to Inbox</div>
+    <div class="add-modal-field">
+      <label>URL</label>
+      <input type="url" id="addUrl" placeholder="https://..." autocomplete="off" onkeydown="if(event.key==='Enter')submitAddArticle()">
+    </div>
+    <div class="add-modal-field">
+      <label>Quick note (optional)</label>
+      <textarea id="addNote" placeholder="Why are you saving this? Any context for Claude..."></textarea>
+    </div>
+    <div class="add-modal-field">
+      <label>Title (optional — Claude will fill this in)</label>
+      <input type="text" id="addTitle" placeholder="Article title" autocomplete="off">
+    </div>
+    <div class="add-modal-actions">
+      <button class="add-modal-cancel" onclick="closeAddModal()">Cancel</button>
+      <button class="add-modal-submit" id="addSubmitBtn" onclick="submitAddArticle()">Add to queue</button>
+    </div>
+    <div class="add-modal-hint">
+      <strong>Tip:</strong> Tell Claude <em>"Check my Gloss inbox"</em> and it will read &amp; summarize everything in your queue. Articles are saved to <code>queue.md</code> in your GitHub notes folder.
+    </div>
+  </div>
+</div>
+
+<!-- Mention Autocomplete -->
+<div class="mention-dropdown" id="mentionDropdown"></div>
+
+<!-- Notes Bar -->
+<div class="notes-bar">
+  <div class="notes-bar-inner">
+    <div class="notes-bar-top">
+      <span id="notesContextBadge" style="display:none" class="notes-context-badge" onclick="clearPaperContext()"></span>
+      <div class="note-type-selector">
+        <button class="note-type-btn active" data-type="note" onclick="setNoteType('note')" title="Note"><i data-lucide="pen-line"></i></button>
+        <button class="note-type-btn" data-type="idea" onclick="setNoteType('idea')" title="Idea"><i data-lucide="lightbulb"></i></button>
+        <button class="note-type-btn" data-type="question" onclick="setNoteType('question')" title="Question"><i data-lucide="circle-help"></i></button>
+        <button class="note-type-btn" data-type="connection" onclick="setNoteType('connection')" title="Connection"><i data-lucide="link"></i></button>
+        <button class="note-type-btn" data-type="action" onclick="setNoteType('action')" title="Action Item"><i data-lucide="square-check-big"></i></button>
+      </div>
+      <div class="notes-bar-meta">
+        <span class="notes-count" id="notesCount"></span>
+        <button class="notes-download-btn" onclick="downloadNotes()" title="Export notes"><i data-lucide="download"></i></button>
+      </div>
+    </div>
+    <div class="notes-input-container">
+      <textarea class="notes-input" id="notesInput" placeholder="Jot a note..." rows="1"></textarea>
+      <div class="notes-input-actions">
+        <button class="voice-btn" id="voiceBtn" onclick="toggleVoiceNote()" title="Voice note"><i data-lucide="mic"></i></button>
+        <button class="notes-send-btn" onclick="addNote()" title="Add note"><i data-lucide="arrow-up"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes-toast" id="notesToast"></div>
+
+<script>
+// ── Analysis Constants ──
+const paper1Analysis = ``;
+
+const paper2Analysis = ``;
+
+const paper3Analysis = ``;
+
+const paper4Analysis = ``;
+
+const paper5Analysis = ``;
+
+const paper6Analysis = ``;
+
+const paper7Analysis = ``;
+
+const paper8Analysis = ``;
+
+
+
+// ── Papers Data (loaded from content.js) ──
+const papers = typeof CONTENT !== 'undefined' ? CONTENT : [];
+
+
+// ── State ──
+const NOTES_KEY = CONFIG.storage.prefix + 'notes';
+const STREAK_KEY = CONFIG.storage.prefix + 'streak';
+const RATINGS_KEY = CONFIG.storage.prefix + 'ratings';
+const THEME_KEY = CONFIG.storage.prefix + 'theme';
+const COLLAPSED_KEY = CONFIG.storage.prefix + 'collapsed';
+let currentFilter = 'all';
+let searchQuery = '';
+let analysisOpen = {};
+let activePaperId = null;
+let currentNoteType = 'note';
+let allCollapsed = false;
+let isRecording = false;
+let recognition = null;
+let mentionActive = false;
+let mentionStart = -1;
+let mentionIndex = 0;
+
+const noteTypeMap = {
+  note: ['📝', 'Note'],
+  idea: ['💡', 'Idea'],
+  question: ['❓', 'Question'],
+  connection: ['🔗', 'Connection'],
+  action: ['📋', 'Action']
+};
+
+// ── Load State ──
+function loadReadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CONFIG.storage.prefix + 'read') || '[]');
+    papers.forEach(p => { if (saved.includes(p.id)) p.read = true; });
+  } catch {}
+}
+
+function saveState() {
+  localStorage.setItem(CONFIG.storage.prefix + 'read', JSON.stringify(papers.filter(p => p.read).map(p => p.id)));
+}
+
+// ── Theme ──
+function loadTheme() {
+  const saved = localStorage.getItem(THEME_KEY) || 'light';
+  document.documentElement.setAttribute('data-theme', saved);
+  updateThemeIcon(saved);
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem(THEME_KEY, next);
+  updateThemeIcon(next);
+}
+
+function updateThemeIcon(theme) {
+  document.getElementById('themeToggle').innerHTML = theme === 'dark' ? '<i data-lucide="moon"></i>' : '<i data-lucide="sun"></i>';
+  if (window.lucide) lucide.createIcons();
+}
+
+// ── Stats ──
+function updateStats() {
+  const readCount = papers.filter(p => p.read).length;
+  document.getElementById('readCount').textContent = readCount;
+  document.getElementById('totalCount').textContent = papers.length;
+  document.getElementById('progressFill').style.width = `${(readCount / papers.length) * 100}%`;
+}
+
+// ── Streak ──
+function getStreakData() {
+  try { return JSON.parse(localStorage.getItem(STREAK_KEY) || '{}'); } catch { return {}; }
+}
+
+function recordActivity() {
+  const data = getStreakData();
+  const today = new Date().toISOString().split('T')[0];
+  data[today] = (data[today] || 0) + 1;
+  localStorage.setItem(STREAK_KEY, JSON.stringify(data));
+  renderStreak();
+}
+
+function renderStreak() {
+  const data = getStreakData();
+  const grid = document.getElementById('streakGrid');
+  const today = new Date();
+  const days = 28; // 4 weeks
+  let dots = '';
+  let streakDays = 0;
+
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const key = d.toISOString().split('T')[0];
+    const active = data[key] ? 'active' : '';
+    const isToday = i === 0 ? 'today' : '';
+    dots += `<div class="streak-dot ${active} ${isToday}" title="${key}${data[key] ? ' · ' + data[key] + ' actions' : ''}"></div>`;
+  }
+
+  // Count current streak
+  for (let i = 0; i <= days; i++) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const key = d.toISOString().split('T')[0];
+    if (data[key]) streakDays++;
+    else if (i > 0) break;
+  }
+
+  grid.innerHTML = dots;
+  document.getElementById('streakCount').textContent = streakDays > 0 ? `${streakDays} day${streakDays > 1 ? 's' : ''} active` : '';
+}
+
+// ── Ratings ──
+function getRatings() {
+  try { return JSON.parse(localStorage.getItem(RATINGS_KEY) || '{}'); } catch { return {}; }
+}
+
+function setRating(paperId, rating) {
+  const ratings = getRatings();
+  ratings[paperId] = rating;
+  localStorage.setItem(RATINGS_KEY, JSON.stringify(ratings));
+  renderPapers();
+  recordActivity();
+}
+
+function renderRating(paperId) {
+  const ratings = getRatings();
+  const current = ratings[paperId] || 0;
+  let stars = '<div class="rating-row"><span class="rating-label">Rating</span>';
+  for (let i = 1; i <= 5; i++) {
+    stars += `<span class="rating-star ${i <= current ? 'filled' : ''}" onclick="event.stopPropagation(); setRating(${paperId}, ${i === current ? 0 : i})">★</span>`;
+  }
+  stars += '</div>';
+  return stars;
+}
+
+// ── Search ──
+document.getElementById('searchInput').addEventListener('input', function() {
+  searchQuery = this.value.trim().toLowerCase();
+  document.getElementById('searchClear').classList.toggle('visible', searchQuery.length > 0);
+  renderPapers();
+});
+
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  searchQuery = '';
+  document.getElementById('searchClear').classList.remove('visible');
+  renderPapers();
+}
+
+// ── Notes ──
+function getNotes() {
+  try { return JSON.parse(localStorage.getItem(NOTES_KEY) || '[]'); } catch { return []; }
+}
+
+function saveNotes(notes) {
+  localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+  updateNotesCount();
+}
+
+function setNoteType(type) {
+  currentNoteType = type;
+  document.querySelectorAll('.note-type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === type));
+}
+
+function addNote() {
+  const input = document.getElementById('notesInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const notes = getNotes();
+  const paper = activePaperId ? papers.find(p => p.id === activePaperId) : null;
+  notes.push({
+    text,
+    type: currentNoteType,
+    paperId: activePaperId || null,
+    paperTitle: paper ? paper.title : null,
+    timestamp: new Date().toISOString(),
+    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+  });
+  saveNotes(notes);
+  input.value = '';
+  input.style.height = 'auto';
+  const label = paper ? `${noteTypeMap[currentNoteType][1]} saved to P${String(activePaperId).padStart(2,'0')} ✓` : `${noteTypeMap[currentNoteType][1]} saved ✓`;
+  showToast(label);
+  renderPapers();
+  recordActivity();
+}
+
+function deleteNote(index) {
+  const notes = getNotes();
+  notes.splice(index, 1);
+  saveNotes(notes);
+  renderPapers();
+  showToast('Note deleted');
+}
+
+function setPaperContext(id) {
+  activePaperId = id;
+  const paper = papers.find(p => p.id === id);
+  const badge = document.getElementById('notesContextBadge');
+  const input = document.getElementById('notesInput');
+  badge.innerHTML = `P${String(id).padStart(2,'0')}<span style="margin-left:4px;font-size:11px;opacity:0.6">×</span>`;
+  badge.style.display = 'inline-flex';
+  input.placeholder = `Note on "${paper.title.substring(0, 35)}..."`;
+}
+
+function clearPaperContext() {
+  activePaperId = null;
+  document.getElementById('notesContextBadge').style.display = 'none';
+  document.getElementById('notesInput').placeholder = 'Jot a note...';
+}
+
+function renderPaperNotes(paperId) {
+  const notes = getNotes().filter(n => n.paperId === paperId);
+  if (notes.length === 0) return '';
+
+  const allNotes = getNotes();
+  const items = notes.map(n => {
+    const idx = allNotes.findIndex(gn => gn.timestamp === n.timestamp && gn.text === n.text);
+    const icon = noteTypeMap[n.type || 'note'][0];
+    return `<div class="paper-note-item">
+      <span class="paper-note-type">${icon}</span>
+      <div class="paper-note-text">${n.text}</div>
+      <span class="paper-note-time">${n.date}</span>
+      <button class="paper-note-delete" onclick="event.stopPropagation(); deleteNote(${idx})" title="Delete">×</button>
+    </div>`;
+  }).join('');
+
+  return `<div class="paper-notes-section">
+    <div class="paper-notes-header">
+      <span class="paper-notes-title">My Notes</span>
+      <span class="paper-notes-count">${notes.length}</span>
+    </div>
+    ${items}
+  </div>`;
+}
+
+function updateNotesCount() {
+  const allNotes = getNotes();
+  const count = allNotes.length;
+  const tagged = allNotes.filter(n => n.paperId).length;
+  const el = document.getElementById('notesCount');
+  if (count === 0) el.textContent = '';
+  else if (tagged > 0) el.textContent = `${count} (${tagged} tagged)`;
+  else el.textContent = `${count}`;
+}
+
+function downloadNotes() {
+  const notes = getNotes();
+  if (notes.length === 0) { showToast('No notes yet'); return; }
+
+  let md = `# ${CONFIG.name} — Reading Notes\n\n`;
+  md += `> Exported ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}\n\n`;
+
+  // Group by type
+  const types = ['idea', 'question', 'connection', 'action', 'note'];
+  const byPaper = {};
+  const general = [];
+  notes.forEach(n => {
+    if (n.paperId) {
+      if (!byPaper[n.paperId]) byPaper[n.paperId] = [];
+      byPaper[n.paperId].push(n);
+    } else {
+      general.push(n);
+    }
+  });
+
+  const paperIds = Object.keys(byPaper).map(Number).sort((a,b) => a - b);
+  paperIds.forEach(pid => {
+    const paper = papers.find(p => p.id === pid);
+    md += '---\n\n';
+    md += `## P${String(pid).padStart(2,'0')}: ${paper ? paper.title : 'Unknown'}\n\n`;
+    byPaper[pid].forEach(n => {
+      const icon = noteTypeMap[n.type || 'note'][0];
+      md += `- ${icon} **${n.date}:** ${n.text}\n`;
+    });
+    md += '\n';
+  });
+
+  if (general.length > 0) {
+    md += '---\n\n## General Notes\n\n';
+    general.forEach(n => {
+      const icon = noteTypeMap[n.type || 'note'][0];
+      md += `- ${icon} **${n.date}:** ${n.text}\n`;
+    });
+  }
+
+  const blob = new Blob([md], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = CONFIG.storage.prefix + 'reading-notes.md';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Notes exported ↓');
+}
+
+// ── Voice Notes ──
+function toggleVoiceNote() {
+  const btn = document.getElementById('voiceBtn');
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    showToast('Voice not supported in this browser');
+    return;
+  }
+
+  if (isRecording) {
+    recognition.stop();
+    btn.classList.remove('recording');
+    isRecording = false;
+    showToast('Listening stopped');
+    return;
+  }
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = 'en-US';
+
+  const input = document.getElementById('notesInput');
+  const startText = input.value;
+
+  recognition.onresult = (event) => {
+    let interim = '';
+    let final = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const t = event.results[i][0].transcript;
+      if (event.results[i].isFinal) final += t;
+      else interim += t;
+    }
+    input.value = startText + (startText ? ' ' : '') + final + interim;
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 100) + 'px';
+  };
+
+  recognition.onerror = () => {
+    btn.classList.remove('recording');
+    isRecording = false;
+    showToast('Voice error — try again');
+  };
+
+  recognition.onend = () => {
+    btn.classList.remove('recording');
+    isRecording = false;
+  };
+
+  recognition.start();
+  btn.classList.add('recording');
+  isRecording = true;
+  showToast('Listening...');
+}
+
+// ── @ Mention Autocomplete ──
+const notesInput = document.getElementById('notesInput');
+
+notesInput.addEventListener('input', function(e) {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+
+  const val = this.value;
+  const cursor = this.selectionStart;
+  const before = val.substring(0, cursor);
+  const atIdx = before.lastIndexOf('@P');
+
+  if (atIdx >= 0 && (atIdx === 0 || before[atIdx - 1] === ' ')) {
+    const query = before.substring(atIdx + 1).toLowerCase();
+    const matches = papers.filter(p => {
+      const pid = `p${String(p.id).padStart(2,'0')}`;
+      return pid.startsWith(query.toLowerCase()) || p.title.toLowerCase().includes(query.replace(/^p\d*/, ''));
+    }).slice(0, 6);
+
+    if (matches.length > 0) {
+      mentionActive = true;
+      mentionStart = atIdx;
+      mentionIndex = 0;
+      renderMentionDropdown(matches);
+      return;
+    }
+  }
+
+  hideMentionDropdown();
+});
+
+notesInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey && !mentionActive) {
+    e.preventDefault();
+    addNote();
+    return;
+  }
+
+  if (!mentionActive) return;
+
+  const dropdown = document.getElementById('mentionDropdown');
+  const items = dropdown.querySelectorAll('.mention-item');
+
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    mentionIndex = Math.min(mentionIndex + 1, items.length - 1);
+    updateMentionHighlight(items);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    mentionIndex = Math.max(mentionIndex - 1, 0);
+    updateMentionHighlight(items);
+  } else if (e.key === 'Enter' || e.key === 'Tab') {
+    e.preventDefault();
+    if (items[mentionIndex]) items[mentionIndex].click();
+  } else if (e.key === 'Escape') {
+    hideMentionDropdown();
+  }
+});
+
+function renderMentionDropdown(matches) {
+  const dd = document.getElementById('mentionDropdown');
+  dd.innerHTML = matches.map((p, i) =>
+    `<div class="mention-item ${i === 0 ? 'active' : ''}" onclick="insertMention(${p.id})">
+      <span class="mention-item-id">P${String(p.id).padStart(2,'0')}</span>
+      <span class="mention-item-title">${p.title}</span>
+    </div>`
+  ).join('');
+  dd.classList.add('visible');
+}
+
+function updateMentionHighlight(items) {
+  items.forEach((item, i) => item.classList.toggle('active', i === mentionIndex));
+}
+
+function insertMention(paperId) {
+  const input = document.getElementById('notesInput');
+  const val = input.value;
+  const before = val.substring(0, mentionStart);
+  const after = val.substring(input.selectionStart);
+  const mention = `@P${String(paperId).padStart(2,'0')}`;
+  input.value = before + mention + ' ' + after;
+  input.focus();
+  input.selectionStart = input.selectionEnd = (before + mention + ' ').length;
+  hideMentionDropdown();
+}
+
+function hideMentionDropdown() {
+  mentionActive = false;
+  document.getElementById('mentionDropdown').classList.remove('visible');
+}
+
+// ── Collapse/Expand ──
+function expandCard(el, paperId) {
+  const card = el.closest('.paper');
+  if (!card.classList.contains('collapsed')) return; // only act when collapsed
+  card.classList.remove('collapsed');
+}
+
+function toggleCollapseAll() {
+  allCollapsed = !allCollapsed;
+  const icon = allCollapsed ? 'rows-4' : 'rows-3';
+  document.getElementById('collapseToggle').innerHTML = `<i data-lucide="${icon}" style="margin-right:4px;font-size:13px;"></i> ${allCollapsed ? 'Expand all' : 'Collapse all'}`;
+  localStorage.setItem(COLLAPSED_KEY, allCollapsed);
+  renderPapers();
+  if (window.lucide) lucide.createIcons();
+}
+
+// ── Render ──
+function toggleRead(id) {
+  const paper = papers.find(p => p.id === id);
+  paper.read = !paper.read;
+  saveState();
+  updateStats();
+  renderPapers();
+  if (paper.read) recordActivity();
+}
+
+function toggleAnalysis(id) {
+  analysisOpen[id] = !analysisOpen[id];
+  if (analysisOpen[id]) setPaperContext(id);
+  else if (activePaperId === id) clearPaperContext();
+  renderPapers();
+}
+
+function renderPapers() {
+  const list = document.getElementById('paperList');
+  let filtered = papers;
+
+  // Apply filter
+  if (currentFilter === 'read') filtered = papers.filter(p => p.read);
+  else if (currentFilter === 'unread') filtered = papers.filter(p => !p.read);
+  else if (currentFilter !== 'all') filtered = papers.filter(p => p.tags.includes(currentFilter));
+
+  // Apply search
+  if (searchQuery) {
+    filtered = filtered.filter(p =>
+      p.title.toLowerCase().includes(searchQuery) ||
+      p.relevance.toLowerCase().includes(searchQuery) ||
+      (p.note && p.note.toLowerCase().includes(searchQuery))
+    );
+  }
+
+  // Update results count
+  document.getElementById('resultsCount').textContent = `${filtered.length} ${filtered.length !== 1 ? CONFIG.content.plural : CONFIG.content.singular}`;
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty-state">No papers match.</div>';
+    return;
+  }
+
+  const tagMap = CONFIG.tags || {};
+
+  const ratings = getRatings();
+
+  list.innerHTML = filtered.map((p, i) => {
+    const tags = p.tags.map(t => {
+      const [cls, label] = tagMap[t];
+      return `<span class="paper-tag ${cls}">${label}</span>`;
+    }).join('');
+
+    const analysisBtn = p.hasAnalysis
+      ? `<button class="action-btn btn-analysis ${analysisOpen[p.id] ? 'open' : ''}" onclick="toggleAnalysis(${p.id})">
+           <i data-lucide="chevron-down" style="font-size:12px;margin-right:3px;"></i>${analysisOpen[p.id] ? 'Hide' : 'Analysis'}
+         </button>`
+      : '';
+
+    const analysisMap = { 1: paper1Analysis, 2: paper2Analysis, 3: paper3Analysis, 4: paper4Analysis, 5: paper5Analysis, 6: paper6Analysis, 7: paper7Analysis, 8: paper8Analysis };
+    const analysisContent = p.hasAnalysis && analysisOpen[p.id] ? (analysisMap[p.id] || '') : '';
+
+    const noteCount = getNotes().filter(n => n.paperId === p.id).length;
+    const noteBadge = noteCount > 0 ? `<span class="note-count-badge"><i data-lucide="message-square-text" style="font-size:11px;margin-right:3px;"></i>${noteCount}</span>` : '';
+
+    const collapsed = allCollapsed && !analysisOpen[p.id] ? 'collapsed' : '';
+    const ratingHtml = p.read ? renderRating(p.id) : '';
+
+    return `
+      <div class="paper ${p.read ? 'is-read' : ''} ${collapsed}" style="animation-delay: ${i * 0.03}s" data-id="${p.id}">
+        <div class="paper-top" onclick="expandCard(this, ${p.id})">
+          <span class="paper-number">${String(p.id).padStart(2, '0')}</span>
+          <div class="paper-content">
+            <div class="paper-title">${p.title}${p.essential ? '<span class="essential-badge">Essential</span>' : ''}</div>
+          </div>
+          ${collapsed ? '<i data-lucide="chevron-down" class="expand-chevron"></i>' : ''}
+        </div>
+        <div class="paper-body">
+          <div class="paper-relevance">${p.relevance}</div>
+          <div class="paper-tags">${tags}</div>
+          ${p.note ? '<div class="paper-note">📌 ' + p.note + '</div>' : ''}
+          <div class="paper-actions">
+            <a href="${p.pdf}" target="_blank" rel="noopener" class="action-btn" onclick="setPaperContext(${p.id})"><i data-lucide="file-text" style="font-size:12px;margin-right:3px;"></i>PDF</a>
+            <a href="${p.arxiv}" target="_blank" rel="noopener" class="action-btn"><i data-lucide="external-link" style="font-size:11px;margin-right:3px;"></i>arXiv</a>
+            ${analysisBtn}
+            ${noteBadge}
+            <button class="action-btn btn-read ${p.read ? 'marked' : ''}" onclick="toggleRead(${p.id})">
+              <i data-lucide="check-circle" style="font-size:12px;margin-right:3px;"></i>${p.read ? 'Read' : 'Mark read'}
+            </button>
+          </div>
+          ${ratingHtml}
+          ${analysisContent}
+          ${renderPaperNotes(p.id)}
+        </div>
+      </div>`;
+  }).join('');
+  // Re-initialize Lucide icons for dynamically added elements
+  if (window.lucide) lucide.createIcons();
+}
+
+// ── TTS Engine ──
+let currentUtterance = null;
+let allParagraphs = [];
+let currentIndex = -1;
+let isPlayingAll = false;
+
+function ttsSpeak(el) {
+  window.speechSynthesis.cancel();
+  document.querySelectorAll('.tts-paragraph.speaking').forEach(p => p.classList.remove('speaking'));
+  el.classList.add('speaking');
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  const text = el.innerText;
+  currentUtterance = new SpeechSynthesisUtterance(text);
+  currentUtterance.rate = 1.0;
+  currentUtterance.pitch = 1.0;
+  const voices = window.speechSynthesis.getVoices();
+  const preferred = voices.find(v => v.name.includes('Samantha') || v.name.includes('Daniel') || v.name.includes('Google'));
+  if (preferred) currentUtterance.voice = preferred;
+  currentUtterance.onend = () => {
+    el.classList.remove('speaking');
+    if (isPlayingAll) {
+      currentIndex++;
+      if (currentIndex < allParagraphs.length) ttsSpeak(allParagraphs[currentIndex]);
+      else { isPlayingAll = false; updateTTSStatus('Done'); }
+    }
+  };
+  updateTTSStatus('Speaking...');
+  window.speechSynthesis.speak(currentUtterance);
+}
+
+function ttsPlayAll() {
+  allParagraphs = Array.from(document.querySelectorAll('.tts-paragraph'));
+  if (allParagraphs.length === 0) return;
+  currentIndex = 0;
+  isPlayingAll = true;
+  ttsSpeak(allParagraphs[0]);
+}
+
+function ttsPause() {
+  if (window.speechSynthesis.paused) { window.speechSynthesis.resume(); updateTTSStatus('Speaking...'); }
+  else { window.speechSynthesis.pause(); updateTTSStatus('Paused'); }
+}
+
+function ttsStop() {
+  isPlayingAll = false;
+  currentIndex = -1;
+  window.speechSynthesis.cancel();
+  document.querySelectorAll('.tts-paragraph.speaking').forEach(p => p.classList.remove('speaking'));
+  updateTTSStatus('Stopped');
+}
+
+function updateTTSStatus(text) { const el = document.getElementById('ttsStatus'); if (el) el.textContent = text; }
+
+window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+// ── Filter Buttons ──
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderPapers();
+  });
+});
+
+// ── Toast ──
+function showToast(msg) {
+  const toast = document.getElementById('notesToast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// ── GitHub Sync ──
+const GH_TOKEN_KEY = CONFIG.storage.prefix + 'gh-token';
+const GH_REPO_KEY = CONFIG.storage.prefix + 'gh-repo';
+const GH_PATH_KEY = CONFIG.storage.prefix + 'gh-path';
+
+function getGHConfig() {
+  return {
+    token: localStorage.getItem(GH_TOKEN_KEY) || '',
+    repo: localStorage.getItem(GH_REPO_KEY) || CONFIG.github.default_repo,
+    path: localStorage.getItem(GH_PATH_KEY) || CONFIG.github.default_path
+  };
+}
+
+function isGHConfigured() {
+  const cfg = getGHConfig();
+  return cfg.token && cfg.repo && cfg.path;
+}
+
+function updateGHIcon() {
+  const icon = document.getElementById('ghSyncStatus');
+  if (isGHConfigured()) {
+    icon.innerHTML = '<i data-lucide="github"></i>';
+    icon.classList.add('gh-connected');
+    icon.title = 'GitHub sync connected';
+  } else {
+    icon.innerHTML = '<i data-lucide="github"></i>';
+    icon.classList.remove('gh-connected');
+    icon.title = 'GitHub sync — not connected';
+  }
+}
+
+function openSettings() {
+  const cfg = getGHConfig();
+  document.getElementById('ghTokenInput').value = cfg.token;
+  document.getElementById('ghRepoInput').value = cfg.repo;
+  document.getElementById('ghPathInput').value = cfg.path;
+  document.getElementById('ghSettingsStatus').textContent = '';
+  document.getElementById('ghSyncSection').style.display = isGHConfigured() ? 'block' : 'none';
+  document.getElementById('settingsOverlay').classList.add('open');
+}
+
+function closeSettings() {
+  document.getElementById('settingsOverlay').classList.remove('open');
+}
+
+function saveGitHubSettings() {
+  const token = document.getElementById('ghTokenInput').value.trim();
+  const repo = document.getElementById('ghRepoInput').value.trim();
+  const path = document.getElementById('ghPathInput').value.trim();
+  if (!token || !repo || !path) {
+    document.getElementById('ghSettingsStatus').textContent = 'All fields required.';
+    return;
+  }
+  localStorage.setItem(GH_TOKEN_KEY, token);
+  localStorage.setItem(GH_REPO_KEY, repo);
+  localStorage.setItem(GH_PATH_KEY, path);
+  document.getElementById('ghSettingsStatus').textContent = '✓ Saved';
+  document.getElementById('ghSyncSection').style.display = 'block';
+  updateGHIcon();
+  showToast('GitHub sync configured');
+}
+
+async function testGitHubConnection() {
+  const token = document.getElementById('ghTokenInput').value.trim();
+  const repo = document.getElementById('ghRepoInput').value.trim();
+  const status = document.getElementById('ghSettingsStatus');
+  if (!token || !repo) { status.textContent = 'Enter token and repo first.'; return; }
+  status.textContent = 'Testing...';
+  try {
+    const res = await fetch(`https://api.github.com/repos/${repo}`, {
+      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      status.textContent = `✓ Connected to ${data.full_name} (${data.visibility})`;
+      status.style.color = 'var(--green)';
+    } else {
+      const err = await res.json();
+      status.textContent = `✗ ${res.status}: ${err.message || 'Failed'}`;
+      status.style.color = 'var(--rose)';
+    }
+  } catch (e) {
+    status.textContent = `✗ Network error: ${e.message}`;
+    status.style.color = 'var(--rose)';
+  }
+}
+
+// Build markdown content for a paper's notes
+function buildPaperNotesMarkdown(paperId) {
+  const paper = papers.find(p => p.id === paperId);
+  if (!paper) return null;
+  const notes = getNotes().filter(n => n.paperId === paperId);
+  const ratings = getRatings();
+  const rating = ratings[paperId];
+
+  let md = `# P${String(paperId).padStart(2,'0')}: ${paper.title}\n\n`;
+  md += `> **Status:** ${paper.read ? 'Read ✓' : 'Unread'}\n`;
+  if (rating) md += `> **Rating:** ${'★'.repeat(rating)}${'☆'.repeat(5-rating)} (${rating}/5)\n`;
+  md += `> **Tags:** ${paper.tags.join(', ')}\n`;
+  md += `> **PDF:** ${paper.pdf}\n`;
+  md += `> **arXiv:** ${paper.arxiv}\n\n`;
+
+  if (paper.relevance) {
+    md += `## Relevance\n\n${paper.relevance.replace(/<\/?em>/g, '*')}\n\n`;
+  }
+
+  if (notes.length > 0) {
+    md += `## Notes\n\n`;
+    const types = ['idea', 'question', 'connection', 'action', 'note'];
+    const typeLabels = { idea: 'Ideas', question: 'Questions', connection: 'Connections', action: 'Action Items', note: 'Notes' };
+
+    types.forEach(type => {
+      const typed = notes.filter(n => (n.type || 'note') === type);
+      if (typed.length === 0) return;
+      const icon = noteTypeMap[type][0];
+      md += `### ${icon} ${typeLabels[type]}\n\n`;
+      typed.forEach(n => {
+        md += `- ${n.text} *(${n.date})*\n`;
+      });
+      md += '\n';
+    });
+  }
+
+  return md;
+}
+
+// Write a single paper's notes to GitHub
+async function pushPaperNotes(paperId) {
+  const cfg = getGHConfig();
+  if (!cfg.token) return;
+
+  const md = buildPaperNotesMarkdown(paperId);
+  if (!md) return;
+
+  const filename = `paper-${String(paperId).padStart(2,'0')}.md`;
+  const filePath = `${cfg.path}/${filename}`;
+  const content = btoa(unescape(encodeURIComponent(md)));
+
+  try {
+    // Check if file already exists (to get sha for update)
+    let sha = null;
+    const getRes = await fetch(`https://api.github.com/repos/${cfg.repo}/contents/${filePath}`, {
+      headers: { 'Authorization': `Bearer ${cfg.token}`, 'Accept': 'application/vnd.github+json' }
+    });
+    if (getRes.ok) {
+      const existing = await getRes.json();
+      sha = existing.sha;
+    }
+
+    const body = {
+      message: `Update notes for P${String(paperId).padStart(2,'0')}`,
+      content: content,
+      branch: 'main'
+    };
+    if (sha) body.sha = sha;
+
+    const putRes = await fetch(`https://api.github.com/repos/${cfg.repo}/contents/${filePath}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${cfg.token}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+
+    if (!putRes.ok) {
+      const err = await putRes.json();
+      console.error('GitHub push failed:', err);
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.error('GitHub push error:', e);
+    return false;
+  }
+}
+
+// Push all notes to GitHub
+async function syncNotesToGitHub() {
+  const cfg = getGHConfig();
+  if (!cfg.token) { showToast('Configure GitHub first'); return; }
+
+  const status = document.getElementById('ghSyncStatus2');
+  status.textContent = 'Syncing...';
+
+  // Find all papers that have notes, ratings, or are read
+  const allNotes = getNotes();
+  const ratings = getRatings();
+  const paperIds = new Set();
+
+  allNotes.forEach(n => { if (n.paperId) paperIds.add(n.paperId); });
+  Object.keys(ratings).forEach(id => paperIds.add(Number(id)));
+  papers.filter(p => p.read).forEach(p => paperIds.add(p.id));
+
+  let success = 0;
+  let failed = 0;
+  for (const pid of paperIds) {
+    const ok = await pushPaperNotes(pid);
+    if (ok) success++; else failed++;
+  }
+
+  // Also push a summary/index file
+  await pushSummaryFile();
+
+  status.textContent = `✓ Pushed ${success} paper${success !== 1 ? 's' : ''}${failed > 0 ? `, ${failed} failed` : ''}`;
+  status.style.color = failed > 0 ? 'var(--amber)' : 'var(--green)';
+  showToast(`Synced ${success} files to GitHub`);
+}
+
+// Push a summary index file
+async function pushSummaryFile() {
+  const cfg = getGHConfig();
+  if (!cfg.token) return;
+
+  const allNotes = getNotes();
+  const ratings = getRatings();
+  const readCount = papers.filter(p => p.read).length;
+
+  let md = `# ${CONFIG.name} — Reading Notes\n\n`;
+  md += `> Auto-generated summary. Last synced: ${new Date().toLocaleString()}\n\n`;
+  md += `**Progress:** ${readCount}/${papers.length} papers read\n\n`;
+  md += `## Papers\n\n`;
+  md += `| # | Title | Status | Rating | Notes |\n`;
+  md += `|---|-------|--------|--------|-------|\n`;
+
+  papers.forEach(p => {
+    const noteCount = allNotes.filter(n => n.paperId === p.id).length;
+    const rating = ratings[p.id];
+    const stars = rating ? '★'.repeat(rating) + '☆'.repeat(5 - rating) : '—';
+    const status = p.read ? '✓ Read' : '—';
+    const link = noteCount > 0 ? `[${noteCount} note${noteCount !== 1 ? 's' : ''}](paper-${String(p.id).padStart(2,'0')}.md)` : '—';
+    md += `| P${String(p.id).padStart(2,'0')} | ${p.title.substring(0, 60)}${p.title.length > 60 ? '...' : ''} | ${status} | ${stars} | ${link} |\n`;
+  });
+
+  md += `\n---\n\n*This file is read/written by Gloss and can be accessed by Claude via its GitHub connection.*\n`;
+
+  const content = btoa(unescape(encodeURIComponent(md)));
+  const filePath = `${cfg.path}/README.md`;
+
+  try {
+    let sha = null;
+    const getRes = await fetch(`https://api.github.com/repos/${cfg.repo}/contents/${filePath}`, {
+      headers: { 'Authorization': `Bearer ${cfg.token}`, 'Accept': 'application/vnd.github+json' }
+    });
+    if (getRes.ok) {
+      const existing = await getRes.json();
+      sha = existing.sha;
+    }
+
+    const body = { message: 'Update reading notes summary', content, branch: 'main' };
+    if (sha) body.sha = sha;
+
+    await fetch(`https://api.github.com/repos/${cfg.repo}/contents/${filePath}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${cfg.token}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+  } catch (e) {
+    console.error('GitHub summary push error:', e);
+  }
+}
+
+// Pull notes from GitHub
+async function pullNotesFromGitHub() {
+  const cfg = getGHConfig();
+  if (!cfg.token) { showToast('Configure GitHub first'); return; }
+
+  const status = document.getElementById('ghSyncStatus2');
+  status.textContent = 'Pulling...';
+
+  try {
+    // List all files in the notes folder
+    const listRes = await fetch(`https://api.github.com/repos/${cfg.repo}/contents/${cfg.path}`, {
+      headers: { 'Authorization': `Bearer ${cfg.token}`, 'Accept': 'application/vnd.github+json' }
+    });
+
+    if (!listRes.ok) {
+      status.textContent = `✗ Could not list notes folder`;
+      status.style.color = 'var(--rose)';
+      return;
+    }
+
+    const files = await listRes.json();
+    const noteFiles = files.filter(f => f.name.startsWith('paper-') && f.name.endsWith('.md'));
+
+    let imported = 0;
+    const existingNotes = getNotes();
+
+    for (const file of noteFiles) {
+      const fileRes = await fetch(file.download_url);
+      const md = await fileRes.text();
+
+      // Extract paper ID from filename
+      const match = file.name.match(/paper-(\d+)\.md/);
+      if (!match) continue;
+      const paperId = parseInt(match[1], 10);
+
+      // Parse notes from the markdown
+      const noteLines = md.match(/^- (.+?) \*\((.+?)\)\*$/gm);
+      if (!noteLines) continue;
+
+      noteLines.forEach(line => {
+        const lineMatch = line.match(/^- (.+?) \*\((.+?)\)\*$/);
+        if (!lineMatch) return;
+        const text = lineMatch[1];
+        const date = lineMatch[2];
+
+        // Check if this note already exists locally
+        const exists = existingNotes.some(n => n.paperId === paperId && n.text === text);
+        if (!exists) {
+          // Detect note type from which section it's under (simplified — default to 'note')
+          const paper = papers.find(p => p.id === paperId);
+          existingNotes.push({
+            text,
+            type: 'note',
+            paperId,
+            paperTitle: paper ? paper.title : null,
+            timestamp: new Date().toISOString(),
+            date
+          });
+          imported++;
+        }
+      });
+
+      // Also check for read status
+      if (md.includes('Status:** Read')) {
+        const paper = papers.find(p => p.id === paperId);
+        if (paper && !paper.read) {
+          paper.read = true;
+        }
+      }
+
+      // Check for rating
+      const ratingMatch = md.match(/Rating:\*\* [★☆]+ \((\d)\/5\)/);
+      if (ratingMatch) {
+        const ratings = getRatings();
+        ratings[paperId] = parseInt(ratingMatch[1], 10);
+        localStorage.setItem(RATINGS_KEY, JSON.stringify(ratings));
+      }
+    }
+
+    if (imported > 0) {
+      saveNotes(existingNotes);
+      saveState();
+      updateStats();
+      renderPapers();
+    }
+
+    status.textContent = `✓ Pulled ${noteFiles.length} file${noteFiles.length !== 1 ? 's' : ''}, imported ${imported} new note${imported !== 1 ? 's' : ''}`;
+    status.style.color = 'var(--green)';
+    showToast(`Imported ${imported} new notes`);
+  } catch (e) {
+    status.textContent = `✗ Error: ${e.message}`;
+    status.style.color = 'var(--rose)';
+  }
+}
+
+// Auto-push when adding a note (if configured)
+const _originalAddNote = addNote;
+addNote = function() {
+  const input = document.getElementById('notesInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const notes = getNotes();
+  const paper = activePaperId ? papers.find(p => p.id === activePaperId) : null;
+  notes.push({
+    text,
+    type: currentNoteType,
+    paperId: activePaperId || null,
+    paperTitle: paper ? paper.title : null,
+    timestamp: new Date().toISOString(),
+    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+  });
+  saveNotes(notes);
+  input.value = '';
+  input.style.height = 'auto';
+  const label = paper ? `${noteTypeMap[currentNoteType][1]} saved to P${String(activePaperId).padStart(2,'0')} ✓` : `${noteTypeMap[currentNoteType][1]} saved ✓`;
+  showToast(label);
+  renderPapers();
+  recordActivity();
+
+  // Auto-push to GitHub if configured and note is tagged to a paper
+  if (activePaperId && isGHConfigured()) {
+    pushPaperNotes(activePaperId).then(ok => {
+      if (ok) showToast('Synced to GitHub ✓');
+    });
+  }
+};
+
+
+// ── Apply Config ──
+function applyConfig() {
+  // Title
+  document.getElementById('pageTitle').textContent = CONFIG.name;
+
+  // Header
+  const mark = document.getElementById('glossMark');
+  if (mark) {
+    mark.querySelector('.gloss-wordmark').textContent = CONFIG.name;
+  }
+  document.getElementById('eyebrow').textContent = CONFIG.tagline || '';
+  document.getElementById('subtitle').textContent = CONFIG.subtitle || '';
+
+  // Analysis badges
+  document.querySelectorAll('.analysis-badge').forEach(el => {
+    el.textContent = CONFIG.analysis?.badge || 'Analysis · TTS Optimized';
+  });
+
+  // Search placeholder
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.placeholder = `Search ${CONFIG.content?.plural || 'articles'}...`;
+
+  // Apply accent colors from config
+  if (CONFIG.branding) {
+    const root = document.documentElement;
+    if (CONFIG.branding.accent) {
+      root.style.setProperty('--accent', CONFIG.branding.accent);
+      root.style.setProperty('--accent-hover', CONFIG.branding.accent_hover || CONFIG.branding.accent);
+      root.style.setProperty('--accent-subtle', CONFIG.branding.accent + '12');
+    }
+    if (CONFIG.branding.teal) {
+      root.style.setProperty('--teal', CONFIG.branding.teal);
+      root.style.setProperty('--teal-subtle', CONFIG.branding.teal + '12');
+    }
+  }
+
+  // Build filter buttons from tags
+  const filtersRow = document.getElementById('filtersRow');
+  if (filtersRow && CONFIG.tags) {
+    let btns = '<button class="filter-btn active" data-filter="all">All</button>';
+    const seen = new Set();
+    // Add tags from config
+    for (const [key, [cls, label]] of Object.entries(CONFIG.tags)) {
+      btns += `<button class="filter-btn" data-filter="${key}">${label}</button>`;
+      seen.add(key);
+    }
+    // Also add any tags found in content that aren't in config
+    if (typeof CONTENT !== 'undefined') {
+      CONTENT.forEach(item => {
+        (item.tags || []).forEach(t => {
+          if (!seen.has(t)) {
+            btns += `<button class="filter-btn" data-filter="${t}">${t.charAt(0).toUpperCase() + t.slice(1)}</button>`;
+            seen.add(t);
+          }
+        });
+      });
+    }
+    btns += '<button class="filter-btn" data-filter="read">✓ Read</button>';
+    btns += '<button class="filter-btn" data-filter="unread">Unread</button>';
+    filtersRow.innerHTML = btns;
+
+    // Re-attach filter click handlers
+    filtersRow.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentFilter = btn.dataset.filter;
+        filtersRow.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderPapers();
+      });
+    });
+  }
+}
+
+
+
+// ── Queue / Inbox ──
+const QUEUE_KEY = CONFIG.storage.prefix + 'queue';
+
+function getQueue() {
+  try { return JSON.parse(localStorage.getItem(QUEUE_KEY)) || []; }
+  catch { return []; }
+}
+
+function saveQueue(q) {
+  localStorage.setItem(QUEUE_KEY, JSON.stringify(q));
+  updateInboxBadge();
+  renderInbox();
+}
+
+function updateInboxBadge() {
+  const badge = document.getElementById('inboxBadge');
+  if (!badge) return;
+  const count = getQueue().length;
+  badge.textContent = count > 0 ? count : '';
+}
+
+function switchView(view) {
+  const tabs = document.querySelectorAll('.view-tab');
+  tabs.forEach(t => t.classList.toggle('active', t.dataset.view === view));
+
+  const libraryPanel = document.getElementById('libraryPanel');
+  const inboxPanel = document.getElementById('inboxPanel');
+
+  if (view === 'inbox') {
+    libraryPanel.classList.add('hidden');
+    inboxPanel.classList.add('active');
+    renderInbox();
+  } else {
+    libraryPanel.classList.remove('hidden');
+    inboxPanel.classList.remove('active');
+  }
+  if (window.lucide) lucide.createIcons();
+}
+
+function renderInbox() {
+  const list = document.getElementById('inboxList');
+  const queue = getQueue();
+
+  if (queue.length === 0) {
+    list.innerHTML = `
+      <div class="inbox-empty">
+        <div class="inbox-empty-icon"><i data-lucide="inbox" style="width:48px;height:48px;"></i></div>
+        <h3>Inbox is empty</h3>
+        <p>Add articles with the <strong>+ Add article</strong> button, then tell Claude:<br><em>"Check my Gloss inbox and summarize everything."</em></p>
+      </div>`;
+    if (window.lucide) lucide.createIcons();
+    return;
+  }
+
+  list.innerHTML = queue.map((item, i) => {
+    const domain = (() => { try { return new URL(item.url).hostname.replace('www.',''); } catch { return ''; } })();
+    const dateStr = new Date(item.added).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return `
+      <div class="queue-item" style="animation-delay:${i * 0.04}s">
+        <div class="queue-item-header">
+          <div>
+            <div class="queue-item-title">${item.title || domain || 'Untitled'}</div>
+            <div class="queue-item-url"><a href="${item.url}" target="_blank" rel="noopener">${item.url}</a></div>
+            ${item.note ? `<div class="queue-item-note">${item.note}</div>` : ''}
+          </div>
+        </div>
+        <div class="queue-item-meta">
+          <span>Added ${dateStr}</span>
+          <span>·</span>
+          <span>${domain}</span>
+          <span style="flex:1;"></span>
+          <div class="queue-item-actions">
+            <button class="queue-done-btn" onclick="markQueueDone(${i})"><i data-lucide="check" style="width:11px;height:11px;margin-right:2px;"></i>Done</button>
+            <button class="queue-remove-btn" onclick="removeFromQueue(${i})"><i data-lucide="x" style="width:11px;height:11px;margin-right:2px;"></i>Remove</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  if (window.lucide) lucide.createIcons();
+}
+
+function openAddModal() {
+  document.getElementById('addModalOverlay').classList.add('show');
+  setTimeout(() => document.getElementById('addUrl').focus(), 100);
+}
+
+function closeAddModal() {
+  document.getElementById('addModalOverlay').classList.remove('show');
+  document.getElementById('addUrl').value = '';
+  document.getElementById('addNote').value = '';
+  document.getElementById('addTitle').value = '';
+}
+
+function submitAddArticle() {
+  const url = document.getElementById('addUrl').value.trim();
+  if (!url) return;
+
+  const note = document.getElementById('addNote').value.trim();
+  const title = document.getElementById('addTitle').value.trim();
+
+  const queue = getQueue();
+  queue.push({
+    url,
+    title: title || '',
+    note: note || '',
+    added: new Date().toISOString(),
+    status: 'pending'
+  });
+  saveQueue(queue);
+  closeAddModal();
+  showToast('Added to inbox');
+
+  // Auto-sync to GitHub if connected
+  pushQueueToGitHub();
+
+  // Switch to inbox view
+  switchView('inbox');
+}
+
+function removeFromQueue(index) {
+  const queue = getQueue();
+  queue.splice(index, 1);
+  saveQueue(queue);
+  pushQueueToGitHub();
+}
+
+function markQueueDone(index) {
+  const queue = getQueue();
+  queue.splice(index, 1);
+  saveQueue(queue);
+  showToast('Marked as done');
+  pushQueueToGitHub();
+}
+
+// ── Queue GitHub Sync ──
+async function pushQueueToGitHub() {
+  const cfg = getGHConfig();
+  if (!cfg.token) return;
+
+  const queue = getQueue();
+  let md = `# Reading Queue\n\n`;
+  md += `> Articles waiting to be read and summarized by Claude.\n`;
+  md += `> Last updated: ${new Date().toISOString()}\n\n`;
+
+  if (queue.length === 0) {
+    md += `_Queue is empty. Add articles in Gloss or tell Claude to check back later._\n`;
+  } else {
+    md += `**${queue.length} article${queue.length !== 1 ? 's' : ''} in queue:**\n\n`;
+    queue.forEach((item, i) => {
+      md += `## ${i + 1}. ${item.title || 'Untitled'}\n\n`;
+      md += `- **URL:** ${item.url}\n`;
+      md += `- **Added:** ${new Date(item.added).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}\n`;
+      if (item.note) md += `- **Note:** ${item.note}\n`;
+      md += `- **Status:** ${item.status || 'pending'}\n\n`;
+    });
+  }
+
+  md += `---\n\n`;
+  md += `*This file is managed by Gloss. Claude reads it to know which articles to summarize next.*\n`;
+
+  const content = btoa(unescape(encodeURIComponent(md)));
+  const filePath = `${cfg.path}/queue.md`;
+
+  try {
+    let sha = null;
+    const getRes = await fetch(`https://api.github.com/repos/${cfg.repo}/contents/${filePath}`, {
+      headers: { 'Authorization': `Bearer ${cfg.token}`, 'Accept': 'application/vnd.github+json' }
+    });
+    if (getRes.ok) {
+      const existing = await getRes.json();
+      sha = existing.sha;
+    }
+
+    const body = { message: 'Update reading queue', content, branch: 'main' };
+    if (sha) body.sha = sha;
+
+    await fetch(`https://api.github.com/repos/${cfg.repo}/contents/${filePath}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${cfg.token}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+  } catch (e) {
+    console.error('Queue sync error:', e);
+  }
+}
+
+// ── Init ──
+applyConfig();
+loadTheme();
+loadReadState();
+allCollapsed = localStorage.getItem(COLLAPSED_KEY) === 'true';
+if (allCollapsed) document.getElementById('collapseToggle').innerHTML = '<i data-lucide="rows-" style="margin-right:4px;font-size:13px;"></i> Expand all';
+updateStats();
+renderStreak();
+renderPapers();
+updateNotesCount();
+updateGHIcon();
+updateInboxBadge();
+if (window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>
