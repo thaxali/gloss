@@ -12,9 +12,7 @@ Gloss has two ways to get articles analyzed by Claude:
 
 **Automated (hands-off):** Add a URL to `queue.md` or use the **+ Add article** button in the app. A GitHub Action detects the change, fires up Claude Code, and Claude reads the article, writes a TTS-optimized analysis, adds it to your reading list, and commits — all without you doing anything.
 
-**Conversational (interactive):** Paste a URL into a Claude chat and say *"summarize this and save it to my Gloss."* Claude analyzes the article and writes the note to your repo. You can also say *"check my Gloss inbox"* and Claude will process everything in your queue.
-
-Both workflows write structured markdown notes to your repo and update your live site.
+**Conversational (interactive):** Paste a URL into a Claude chat thread. Claude fetches the article, auto-detects the content type, and gives you a structured analysis right in the conversation. Ask follow-up questions, go deeper on specific sections, or get a quick take — it's like having a research assistant read alongside you.
 
 ## Features
 
@@ -140,17 +138,16 @@ Paste this into a new Claude thread to get started:
 > `https://raw.githubusercontent.com/YOURUSERNAME/gloss/main/skills/reading-companion/SKILL.md`
 >
 > Read that file and follow its instructions for all future article analysis in this thread. Confirm what modes you found and that you're ready.
->
-> My GitHub repo is `YOURUSERNAME/gloss`. Notes go in `notes/`.
 
 Replace `YOURUSERNAME` with your GitHub username.
 
 ### What you can say to Claude
 
-- *"Check my Gloss inbox"* — Process all queued articles
-- *"Read this paper and save it to my Gloss"* — Analyze a single article
+- *"Read this for me: [URL]"* — Get a full structured analysis
 - *"Summarize this as a news article"* — Force a specific analysis mode
 - *"Give me a quick take on this"* — Get a short 2–3 paragraph summary
+- *"What are the key findings?"* — Ask follow-up questions about the article
+- *"How does this relate to [topic]?"* — Go deeper on connections
 
 ### Analysis Modes
 
