@@ -2061,6 +2061,13 @@ function setPaperContext(id) {
   input.placeholder = `Note on "${paper.title.substring(0, 35)}..."`;
 }
 
+function focusNoteForPaper(id) {
+  setPaperContext(id);
+  const input = document.getElementById('notesInput');
+  input.focus();
+  input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
 function clearPaperContext() {
   activePaperId = null;
   document.getElementById('notesContextBadge').style.display = 'none';
@@ -2377,7 +2384,7 @@ function renderPapers() {
     const analysisContent = p.hasAnalysis && analysisOpen[p.id] ? (analysisMap[p.id] || '') : '';
 
     const noteCount = getNotes().filter(n => n.paperId === p.id).length;
-    const noteBadge = noteCount > 0 ? `<span class="note-count-badge"><i data-lucide="message-square-text" style="font-size:11px;margin-right:3px;"></i>${noteCount}</span>` : '';
+    const noteBadge = `<button class="action-btn" onclick="focusNoteForPaper(${p.id})"><i data-lucide="pen-line" style="font-size:12px;margin-right:3px;"></i>${noteCount > 0 ? noteCount + ' note' + (noteCount !== 1 ? 's' : '') : 'Add note'}</button>`;
 
     const collapsed = allCollapsed && !analysisOpen[p.id] ? 'collapsed' : '';
     const ratingHtml = p.read ? renderRating(p.id) : '';
@@ -2396,7 +2403,7 @@ function renderPapers() {
           <div class="paper-tags">${tags}</div>
           ${p.note ? '<div class="paper-note">📌 ' + p.note + '</div>' : ''}
           <div class="paper-actions">
-            <a href="${p.pdf}" target="_blank" rel="noopener" class="action-btn" onclick="setPaperContext(${p.id})"><i data-lucide="file-text" style="font-size:12px;margin-right:3px;"></i>PDF</a>
+            <a href="${p.pdf}" target="_blank" rel="noopener" class="action-btn"><i data-lucide="file-text" style="font-size:12px;margin-right:3px;"></i>PDF</a>
             <a href="${p.arxiv}" target="_blank" rel="noopener" class="action-btn"><i data-lucide="external-link" style="font-size:11px;margin-right:3px;"></i>arXiv</a>
             ${analysisBtn}
             ${noteBadge}
