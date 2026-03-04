@@ -1729,6 +1729,7 @@
   <div class="controls-row">
     <span class="results-count" id="resultsCount"></span>
     <div class="controls-actions">
+      <button class="control-btn" id="sortToggle" onclick="toggleSort()"><i data-lucide="arrow-up-narrow-wide" style="margin-right:4px;font-size:13px;"></i> Oldest first</button>
       <button class="control-btn" id="collapseToggle" onclick="toggleCollapseAll()"><i data-lucide="rows-" style="margin-right:4px;font-size:13px;"></i> Collapse all</button>
     </div>
   </div>
@@ -1869,6 +1870,9 @@ let analysisOpen = {};
 let activePaperId = null;
 let currentNoteType = 'note';
 let allCollapsed = false;
+let expandedCards = new Set();
+let collapsedCards = new Set();
+let currentSort = 'oldest';
 let isRecording = false;
 let recognition = null;
 let mentionActive = false;
@@ -2298,20 +2302,91 @@ function hideMentionDropdown() {
   document.getElementById('mentionDropdown').classList.remove('visible');
 }
 
+// ── Sort ──
+function toggleSort() {
+  currentSort = currentSort === 'oldest' ? 'newest' : 'oldest';
+  const icon = currentSort === 'oldest' ? 'arrow-up-narrow-wide' : 'arrow-down-wide-narrow';
+  document.getElementById('sortToggle').innerHTML = `<i data-lucide="${icon}" style="margin-right:4px;font-size:13px;"></i> ${currentSort === 'oldest' ? 'Oldest first' : 'Newest first'}`;
+  renderPapers();
+  if (window.lucide) lucide.createIcons();
+}
+
 // ── Collapse/Expand ──
 function expandCard(el, paperId) {
-  const card = el.closest('.paper');
-  if (!card.classList.contains('collapsed')) return; // only act when collapsed
-  card.classList.remove('collapsed');
+  if (allCollapsed) {
+    if (expandedCards.has(paperId)) {
+      expandedCards.delete(paperId);
+      if (analysisOpen[paperId]) {
+        analysisOpen[paperId] = false;
+        if (activePaperId === paperId) clearPaperContext();
+      }
+    } else {
+      expandedCards.add(paperId);
+    }
+  } else {
+    if (collapsedCards.has(paperId)) {
+      collapsedCards.delete(paperId);
+    } else {
+      collapsedCards.add(paperId);
+      if (analysisOpen[paperId]) {
+        analysisOpen[paperId] = false;
+        if (activePaperId === paperId) clearPaperContext();
+      }
+    }
+  }
+  renderPapers();
+  if (window.lucide) lucide.createIcons();
 }
 
 function toggleCollapseAll() {
   allCollapsed = !allCollapsed;
+  expandedCards.clear();
+  collapsedCards.clear();
   const icon = allCollapsed ? 'rows-4' : 'rows-3';
   document.getElementById('collapseToggle').innerHTML = `<i data-lucide="${icon}" style="margin-right:4px;font-size:13px;"></i> ${allCollapsed ? 'Expand all' : 'Collapse all'}`;
   localStorage.setItem(COLLAPSED_KEY, allCollapsed);
   renderPapers();
   if (window.lucide) lucide.createIcons();
+}
+
+// ── Filters ──
+function buildFilters() {
+  const filtersRow = document.getElementById('filtersRow');
+  if (!filtersRow || !CONFIG.tags) return;
+
+  let btns = '<button class="filter-btn active" data-filter="all">All</button>';
+  btns += '<button class="filter-btn" data-filter="unread">Unread</button>';
+  btns += '<button class="filter-btn" data-filter="read">Read</button>';
+
+  const seen = new Set();
+  for (const [key, [cls, label]] of Object.entries(CONFIG.tags)) {
+    btns += `<button class="filter-btn" data-filter="${key}">${label}</button>`;
+    seen.add(key);
+  }
+  const source = typeof CONTENT !== 'undefined' ? CONTENT : papers;
+  source.forEach(item => {
+    (item.tags || []).forEach(t => {
+      if (!seen.has(t)) {
+        btns += `<button class="filter-btn" data-filter="${t}">${t.charAt(0).toUpperCase() + t.slice(1)}</button>`;
+        seen.add(t);
+      }
+    });
+  });
+
+  filtersRow.innerHTML = btns;
+
+  filtersRow.querySelectorAll('.filter-btn').forEach(btn => {
+    if (btn.dataset.filter === currentFilter) {
+      btn.classList.add('active');
+      filtersRow.querySelector('.filter-btn[data-filter="all"]')?.classList.remove('active');
+    }
+    btn.addEventListener('click', () => {
+      currentFilter = btn.dataset.filter;
+      filtersRow.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPapers();
+    });
+  });
 }
 
 // ── Render ──
@@ -2349,6 +2424,13 @@ function renderPapers() {
     );
   }
 
+  // Sort
+  if (currentSort === 'oldest') {
+    filtered = [...filtered].sort((a, b) => a.id - b.id);
+  } else {
+    filtered = [...filtered].sort((a, b) => b.id - a.id);
+  }
+
   // Update results count
   document.getElementById('resultsCount').textContent = `${filtered.length} ${filtered.length !== 1 ? CONFIG.content.plural : CONFIG.content.singular}`;
 
@@ -2379,17 +2461,20 @@ function renderPapers() {
     const noteCount = getNotes().filter(n => n.paperId === p.id).length;
     const noteBadge = noteCount > 0 ? `<span class="note-count-badge"><i data-lucide="message-square-text" style="font-size:11px;margin-right:3px;"></i>${noteCount}</span>` : '';
 
-    const collapsed = allCollapsed && !analysisOpen[p.id] ? 'collapsed' : '';
+    const isCollapsed = allCollapsed
+      ? (!expandedCards.has(p.id) && !analysisOpen[p.id])
+      : (collapsedCards.has(p.id) && !analysisOpen[p.id]);
+    const collapsed = isCollapsed ? 'collapsed' : '';
     const ratingHtml = p.read ? renderRating(p.id) : '';
 
     return `
       <div class="paper ${p.read ? 'is-read' : ''} ${collapsed}" style="animation-delay: ${i * 0.03}s" data-id="${p.id}">
         <div class="paper-top" onclick="expandCard(this, ${p.id})">
-          <span class="paper-number">${String(p.id).padStart(2, '0')}</span>
+          <span class="paper-number">${String(currentSort === 'oldest' ? i + 1 : filtered.length - i).padStart(2, '0')}</span>
           <div class="paper-content">
             <div class="paper-title">${p.title}${p.essential ? '<span class="essential-badge">Essential</span>' : ''}</div>
           </div>
-          ${collapsed ? '<i data-lucide="chevron-down" class="expand-chevron"></i>' : ''}
+          ${collapsed ? '<i data-lucide="chevron-down" class="expand-chevron"></i>' : '<i data-lucide="chevron-up" class="expand-chevron"></i>'}
         </div>
         <div class="paper-body">
           <div class="paper-relevance">${p.relevance}</div>
@@ -2950,41 +3035,7 @@ function applyConfig() {
     }
   }
 
-  // Build filter buttons from tags
-  const filtersRow = document.getElementById('filtersRow');
-  if (filtersRow && CONFIG.tags) {
-    let btns = '<button class="filter-btn active" data-filter="all">All</button>';
-    const seen = new Set();
-    // Add tags from config
-    for (const [key, [cls, label]] of Object.entries(CONFIG.tags)) {
-      btns += `<button class="filter-btn" data-filter="${key}">${label}</button>`;
-      seen.add(key);
-    }
-    // Also add any tags found in content that aren't in config
-    if (typeof CONTENT !== 'undefined') {
-      CONTENT.forEach(item => {
-        (item.tags || []).forEach(t => {
-          if (!seen.has(t)) {
-            btns += `<button class="filter-btn" data-filter="${t}">${t.charAt(0).toUpperCase() + t.slice(1)}</button>`;
-            seen.add(t);
-          }
-        });
-      });
-    }
-    btns += '<button class="filter-btn" data-filter="read">✓ Read</button>';
-    btns += '<button class="filter-btn" data-filter="unread">Unread</button>';
-    filtersRow.innerHTML = btns;
-
-    // Re-attach filter click handlers
-    filtersRow.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        currentFilter = btn.dataset.filter;
-        filtersRow.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        renderPapers();
-      });
-    });
-  }
+  buildFilters();
 }
 
 
